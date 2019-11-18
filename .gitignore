@@ -1,7 +1,11 @@
 HELP.md
 target/
+
+### GENERATED XML FILES
+src/main/java/soap_course_management/
+
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**
+!**/src/main/java/
 !**/src/test/**
 
 ### STS ###

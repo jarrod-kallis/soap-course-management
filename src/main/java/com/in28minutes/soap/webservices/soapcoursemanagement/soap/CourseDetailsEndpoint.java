@@ -7,6 +7,7 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import com.in28minutes.soap.webservices.soapcoursemanagement.soap.bean.Course;
+import com.in28minutes.soap.webservices.soapcoursemanagement.soap.exception.CourseNotFoundException;
 import com.in28minutes.soap.webservices.soapcoursemanagement.soap.service.CourseDetailsService;
 
 import soap_course_management.courses.CourseDetails;
@@ -29,6 +30,11 @@ public class CourseDetailsEndpoint {
 		GetCourseDetailsResponse response = new GetCourseDetailsResponse();
 
 		Course course = service.getById(request.getId());
+
+		if (course == null) {
+			throw new CourseNotFoundException("Course not found with id: " + request.getId());
+		}
+
 		CourseDetails courseDetails = course.convert();
 
 		response.setCourseDetails(courseDetails);

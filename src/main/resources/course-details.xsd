@@ -1,28 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="soap-course-management/courses"
-	xmlns:tns="soap-course-management/courses" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="soap-course-management/courses" xmlns:tns="soap-course-management/courses"
+	elementFormDefault="qualified">
 
-	<!-- <GetCourseDetailsRequest xmlns="soap-course-management/courses"> <id>123</id> 
-		</GetCourseDetailsRequest> -->
+	<!-- JAXB2 Maven Plugin generates the Java classes -->
 
+	<!-- Get a specific course -->
 	<xs:element name="GetCourseDetailsRequest">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="id" type="xs:int"/>
+				<xs:element name="id" type="xs:int" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
 
-	<!-- <GetCourseDetailsResponse xmlns="soap-course-management/courses"> <CourseDetails> 
-		<id>123</id> <name>Course 1</name> <description>Desc for Course 1</description> 
-		</CourseDetails> </GetCourseDetailsResponse> -->
 	<xs:element name="GetCourseDetailsResponse">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="CourseDetails" type="tns:CourseDetails"/>
+				<xs:element name="CourseDetails" type="tns:CourseDetails" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
+
+	<!-- Get all courses -->
+	<xs:element name="GetAllCourseDetailsRequest">
+		<!-- This is needed in order for the plugin to generate a Java class -->
+		<xs:complexType></xs:complexType>
+	</xs:element>
+
+	<xs:element name="GetAllCourseDetailsResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<!-- maxOccurs = can be used to indicate that a list is returned -->
+				<xs:element name="CourseDetails" type="tns:CourseDetails"
+					maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- Delete a specific course -->
+	<xs:element name="DeleteCourseDetailsRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="id" type="xs:int" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="DeleteCourseDetailsResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="success" type="xs:boolean" />
+				<xs:element name="status" type="tns:Status" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:simpleType name="Status">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SUCCESS" />
+			<xs:enumeration value="FAILURE" />
+		</xs:restriction>
+	</xs:simpleType>
 
 	<xs:complexType name="CourseDetails">
 		<xs:sequence>
